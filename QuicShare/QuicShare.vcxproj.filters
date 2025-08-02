@@ -27,8 +27,12 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="QuicShare.cpp" />
+    <ClCompile Include="Log\Log.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="QuicShare.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Log\Log.h" />
   </ItemGroup>
 </Project>

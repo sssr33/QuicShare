@@ -1,12 +1,10 @@
 #pragma once
-
-#include <QtWidgets/QMainWindow>
 #include "ui_QuicShare.h"
 
-class QuicShare : public QMainWindow
-{
-    Q_OBJECT
+#include <QtWidgets/QMainWindow>
 
+class QuicShare : public QMainWindow {
+    Q_OBJECT
 public:
     QuicShare(QWidget *parent = nullptr);
     ~QuicShare();
@@ -14,4 +12,3 @@ public:
 private:
     Ui::QuicShareClass ui;
 };
-
