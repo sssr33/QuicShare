@@ -39,11 +39,13 @@
     <QtInstall>6.8.2_msvc2022_64</QtInstall>
     <QtModules>core;gui;widgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
+    <QtDeploy>true</QtDeploy>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>6.8.2_msvc2022_64</QtInstall>
     <QtModules>core;gui;widgets</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
+    <QtDeploy>true</QtDeploy>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
     <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
@@ -112,11 +114,13 @@
     <QtRcc Include="QuicShare.qrc" />
     <QtUic Include="QuicShare.ui" />
     <QtMoc Include="QuicShare.h" />
+    <ClCompile Include="LocalNetworkDiscovery\LocalNetworkDiscovery.cpp" />
     <ClCompile Include="Log\Log.cpp" />
     <ClCompile Include="QuicShare.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="LocalNetworkDiscovery\LocalNetworkDiscovery.h" />
     <ClInclude Include="Log\Log.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

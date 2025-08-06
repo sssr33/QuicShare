@@ -1,11 +1,21 @@
 {
     "dependencies": [
-		"spdlog"
+		"spdlog",
+		"boost-uuid",
+		"boost-asio"
     ],
 	"overrides": [
 		{
 			"name": "spdlog",
 			"version": "1.15.3"
+		},
+		{
+			"name": "boost-uuid",
+			"version": "1.88.0"
+		},
+		{
+			"name": "boost-asio",
+			"version": "1.88.0"
 		}
 	]
 }
