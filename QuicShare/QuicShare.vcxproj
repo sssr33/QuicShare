@@ -114,13 +114,13 @@
     <QtRcc Include="QuicShare.qrc" />
     <QtUic Include="QuicShare.ui" />
     <QtMoc Include="QuicShare.h" />
-    <ClCompile Include="LocalNetworkDiscovery\LocalNetworkDiscovery.cpp" />
+    <ClCompile Include="LocalNetworkDiscovery\LocalNetworkDiscoveryChannel.cpp" />
     <ClCompile Include="Log\Log.cpp" />
     <ClCompile Include="QuicShare.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LocalNetworkDiscovery\LocalNetworkDiscovery.h" />
+    <ClInclude Include="LocalNetworkDiscovery\LocalNetworkDiscoveryChannel.h" />
     <ClInclude Include="Log\Log.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
