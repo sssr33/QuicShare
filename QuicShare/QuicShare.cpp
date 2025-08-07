@@ -25,7 +25,7 @@ QuicShare::QuicShare(QWidget *parent)
             auto isLoopback = addr.is_loopback();
 
             if (!addr.is_loopback()) {
-                auto lnd = std::make_unique<LocalNetworkDiscovery>(ioContext, addr);
+                auto lnd = std::make_unique<LocalNetworkDiscoveryChannel>(ioContext, addr);
                 localNetworkDiscovery.push_back(std::move(lnd));
             }
         }

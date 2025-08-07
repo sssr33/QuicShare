@@ -11,9 +11,9 @@
 #include <vector>
 #include <thread>
 
-class LocalNetworkDiscovery {
+class LocalNetworkDiscoveryChannel {
 public:
-    LocalNetworkDiscovery(boost::asio::io_context& ioContext, boost::asio::ip::address listenAddress_);
+    LocalNetworkDiscoveryChannel(boost::asio::io_context& ioContext, boost::asio::ip::address listenAddress_);
 
     void Test();
 

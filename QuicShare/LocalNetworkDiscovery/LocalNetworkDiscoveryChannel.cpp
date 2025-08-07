@@ -1,4 +1,4 @@
-#include "LocalNetworkDiscovery.h"
+#include "LocalNetworkDiscoveryChannel.h"
 
 //constexpr auto addrV4 = "239.192.152.143"; // torrent protocol ipv4
 //constexpr auto addrV6 = "ff15::efc0:988f"; // torrent protocol ipv6
@@ -6,7 +6,7 @@ constexpr auto addrV4 = "239.255.0.1"; // differs from torrent protocol
 constexpr auto addrV6 = "ff15::cafe:babe"; // differs from torrent protocol
 constexpr auto port = 30001; // differs from torrent protocol. torrent protocol uses 6771
 
-LocalNetworkDiscovery::LocalNetworkDiscovery(boost::asio::io_context& ioContext, boost::asio::ip::address listenAddress_)
+LocalNetworkDiscoveryChannel::LocalNetworkDiscoveryChannel(boost::asio::io_context& ioContext, boost::asio::ip::address listenAddress_)
     : listenAddress(listenAddress_)
     , socket(ioContext)
     , socketReceiveBuffer(1024 * 4)
@@ -41,11 +41,11 @@ LocalNetworkDiscovery::LocalNetworkDiscovery(boost::asio::io_context& ioContext,
     socket.async_receive_from(
         boost::asio::buffer(socketReceiveBuffer),
         socketReceiveEndpoint,
-        std::bind(&LocalNetworkDiscovery::ReceiveHandler, this, std::placeholders::_1, std::placeholders::_2)
+        std::bind(&LocalNetworkDiscoveryChannel::ReceiveHandler, this, std::placeholders::_1, std::placeholders::_2)
     );
 }
 
-void LocalNetworkDiscovery::Test() {
+void LocalNetworkDiscoveryChannel::Test() {
     using namespace boost::asio::ip;
     using namespace boost::asio::ip::multicast;
 
@@ -64,7 +64,7 @@ void LocalNetworkDiscovery::Test() {
     }
 }
 
-void LocalNetworkDiscovery::ReceiveHandler(
+void LocalNetworkDiscoveryChannel::ReceiveHandler(
     const boost::system::error_code& error,
     std::size_t bytesTransferred
 )
@@ -83,6 +83,6 @@ void LocalNetworkDiscovery::ReceiveHandler(
     socket.async_receive_from(
         boost::asio::buffer(socketReceiveBuffer),
         socketReceiveEndpoint,
-        std::bind(&LocalNetworkDiscovery::ReceiveHandler, this, std::placeholders::_1, std::placeholders::_2)
+        std::bind(&LocalNetworkDiscoveryChannel::ReceiveHandler, this, std::placeholders::_1, std::placeholders::_2)
     );
 }

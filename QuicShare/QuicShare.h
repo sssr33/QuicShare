@@ -1,6 +1,6 @@
 #pragma once
 #include "ui_QuicShare.h"
-#include "LocalNetworkDiscovery/LocalNetworkDiscovery.h"
+#include "LocalNetworkDiscovery/LocalNetworkDiscoveryChannel.h"
 
 #include <QtWidgets/QMainWindow>
 #include <vector>
@@ -20,5 +20,5 @@ private:
 
     boost::asio::io_context ioContext;
     std::thread ioContextThread;
-    std::vector<std::unique_ptr<LocalNetworkDiscovery>> localNetworkDiscovery;
+    std::vector<std::unique_ptr<LocalNetworkDiscoveryChannel>> localNetworkDiscovery;
 };
