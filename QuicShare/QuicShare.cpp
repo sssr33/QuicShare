@@ -31,8 +31,9 @@ QuicShare::QuicShare(QWidget *parent)
     connect(localNetworkDiscovery.get(), &LocalNetworkDiscovery::LocalPeerPathAdded, this, &QuicShare::LocalPeerPathAdded);
 }
 
-QuicShare::~QuicShare()
-{}
+QuicShare::~QuicShare() {
+    ioContext.stop();
+}
 
 void QuicShare::LocalPeerAdded(const LocalNetworkPeerInfo& peer) {
     auto selfOrPeer = peer.self ? "SELF" : "PEER";
@@ -57,6 +58,6 @@ void QuicShare::OnStartClicked() {
 }
 
 void QuicShare::IoContextThreadMain() {
-    auto work_guard = boost::asio::make_work_guard(ioContext);
+    auto workGuard = boost::asio::make_work_guard(ioContext);
     ioContext.run();
 }

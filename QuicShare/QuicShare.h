@@ -5,6 +5,7 @@
 #include <QtWidgets/QMainWindow>
 #include <vector>
 #include <memory>
+#include <thread>
 
 class QuicShare : public QMainWindow {
     Q_OBJECT
@@ -23,7 +24,8 @@ private:
     Ui::QuicShareClass ui;
 
     boost::asio::io_context ioContext;
-    std::thread ioContextThread;
     std::unique_ptr<LocalNetworkDiscovery> localNetworkDiscovery;
     std::string localId;
+
+    std::jthread ioContextThread;
 };
