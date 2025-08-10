@@ -27,14 +27,49 @@ void LocalNetworkDiscovery::Announce() {
     }
 }
 
+const std::map<std::string, LocalNetworkPeerInfo>& LocalNetworkDiscovery::GetPeers() const {
+    return peers;
+}
+
 void LocalNetworkDiscovery::NewPeerOnChannelAvailable(const LocalNetworkChannelPeerInfo& info) {
     auto listen = info.listenAddress.to_string();
     auto endpoint = info.endpoint.address().to_string();
+    bool isV4 = info.endpoint.address().is_v4();
+    bool isV6 = info.endpoint.address().is_v6();
 
-    if (info.localId == localId) {
-        int stop = 234;
+    auto it = peers.find(info.localId);
+    if (it == peers.end()) {
+        LocalNetworkPeerInfo newPeer;
+
+        newPeer.self = info.localId == localId;
+        newPeer.localId = info.localId;
+        newPeer.listenAddress = info.listenAddress;
+        newPeer.endpoints.push_back(info.endpoint);
+
+        auto added = peers.emplace(info.localId, std::move(newPeer));
+
+        emit LocalPeerAdded(added.first->second);
     }
     else {
-        int stop = 234;
+        auto& existingPeer = it->second;
+        auto& existingEndpoints = existingPeer.endpoints;
+
+        auto it = std::find_if(existingEndpoints.begin(), existingEndpoints.end(),
+            [&](const boost::asio::ip::udp::endpoint& endpoint)
+            {
+                return endpoint.address() == info.endpoint.address();
+            }
+        );
+
+        if (it == existingEndpoints.end()) {
+            // new endpoint
+            existingEndpoints.push_back(info.endpoint);
+
+            emit LocalPeerEndpointAdded(existingPeer, info.endpoint);
+        }
+        else {
+            // existing endpoint
+            return;
+        }
     }
 }

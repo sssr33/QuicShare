@@ -12,6 +12,10 @@ public:
     QuicShare(QWidget *parent = nullptr);
     ~QuicShare();
 
+public slots:
+    void LocalPeerAdded(const LocalNetworkPeerInfo& peer);
+    void LocalPeerEndpointAdded(const LocalNetworkPeerInfo& peer, const boost::asio::ip::udp::endpoint& endpoint);
+
 private:
     void OnStartClicked();
     void IoContextThreadMain();

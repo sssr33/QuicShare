@@ -43,5 +43,6 @@
     <ClInclude Include="LocalNetworkDiscovery\LndMessage.h" />
     <ClInclude Include="LocalNetworkDiscovery\LndMessageType.h" />
     <ClInclude Include="LocalNetworkDiscovery\LndMessageAnnounce.h" />
+    <ClInclude Include="LocalNetworkDiscovery\LocalNetworkPeerInfo.h" />
   </ItemGroup>
 </Project>
