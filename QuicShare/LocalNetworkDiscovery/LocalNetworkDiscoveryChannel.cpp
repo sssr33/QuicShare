@@ -63,8 +63,6 @@ void LocalNetworkDiscoveryChannel::Announce() {
     const bool v4 = listenAddress.is_v4();
     auto multicastEndpoint = udp::endpoint(v4 ? address(make_address(addrV4).to_v4()) : address(make_address(addrV6).to_v6()), port);
 
-    std::string message = "Hello, multicast! From: " + listenAddress.to_string();
-
     LndMessageAnnounce msg;
 
     msg.peerId = localId;
