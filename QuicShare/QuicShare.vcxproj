@@ -76,12 +76,14 @@
     <ClCompile>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PreprocessorDefinitions>NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PreprocessorDefinitions>NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
@@ -126,6 +128,7 @@
   <ItemGroup>
     <QtMoc Include="LocalNetworkDiscovery\LocalNetworkDiscovery.h" />
     <QtMoc Include="LocalNetworkDiscovery\LocalNetworkDiscoveryChannel.h" />
+    <ClInclude Include="Helpers\scope_exit.h" />
     <ClInclude Include="LocalNetworkDiscovery\LndMessage.h" />
     <ClInclude Include="LocalNetworkDiscovery\LndMessageAnnounce.h" />
     <ClInclude Include="LocalNetworkDiscovery\LndMessageType.h" />

@@ -46,5 +46,6 @@
     <ClInclude Include="LocalNetworkDiscovery\LndMessageAnnounce.h" />
     <ClInclude Include="LocalNetworkDiscovery\LocalNetworkPeerInfo.h" />
     <ClInclude Include="LocalNetworkDiscovery\LocalNetworkPeerPath.h" />
+    <ClInclude Include="Helpers\scope_exit.h" />
   </ItemGroup>
 </Project>

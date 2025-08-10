@@ -1,5 +1,6 @@
 #include "LocalNetworkDiscoveryChannel.h"
 #include "LndMessageAnnounce.h"
+#include "Helpers/scope_exit.h"
 
 //constexpr auto addrV4 = "239.192.152.143"; // torrent protocol ipv4
 //constexpr auto addrV6 = "ff15::efc0:988f"; // torrent protocol ipv6
@@ -85,6 +86,15 @@ void LocalNetworkDiscoveryChannel::ReceiveHandler(
     std::size_t bytesTransferred
 )
 {
+    auto receiveScope = scope_exit{[this]
+        {
+            socket.async_receive_from(
+                boost::asio::buffer(socketReceiveBuffer),
+                socketReceiveEndpoint,
+                std::bind(&LocalNetworkDiscoveryChannel::ReceiveHandler, this, std::placeholders::_1, std::placeholders::_2)
+            );
+        }};
+
     const bool v4 = listenAddress.is_v4();
     auto addrStr = listenAddress.to_string();
 
@@ -132,10 +142,4 @@ void LocalNetworkDiscoveryChannel::ReceiveHandler(
         assert(false);
         break;
     }
-
-    socket.async_receive_from(
-        boost::asio::buffer(socketReceiveBuffer),
-        socketReceiveEndpoint,
-        std::bind(&LocalNetworkDiscoveryChannel::ReceiveHandler, this, std::placeholders::_1, std::placeholders::_2)
-    );
 }
