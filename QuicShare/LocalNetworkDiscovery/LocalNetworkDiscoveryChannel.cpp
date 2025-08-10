@@ -43,6 +43,10 @@ LocalNetworkDiscoveryChannel::LocalNetworkDiscoveryChannel(
     if (v4) {
         socket.set_option(outbound_interface(listenAddress.to_v4()));
     }
+    else {
+        unsigned int ifindex = listenAddress.to_v6().scope_id();
+        socket.set_option(outbound_interface(ifindex));
+    }
 
     socket.async_receive_from(
         boost::asio::buffer(socketReceiveBuffer),
