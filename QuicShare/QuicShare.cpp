@@ -47,7 +47,7 @@ void QuicShare::LocalPeerPathAdded(const LocalNetworkPeerInfo& peer, LocalNetwor
     auto& peerId = peer.localId;
     auto pathStr = path.ToString();
 
-    LOG_INFO("added {} NEW ENDPOINT:\n    (id) {}\n    (path) {}", selfOrPeer, peerId, pathStr);
+    LOG_INFO("added {} NEW PATH:\n    (id) {}\n    (path) {}", selfOrPeer, peerId, pathStr);
 }
 
 void QuicShare::OnStartClicked() {
