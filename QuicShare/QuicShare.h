@@ -14,7 +14,7 @@ public:
 
 public slots:
     void LocalPeerAdded(const LocalNetworkPeerInfo& peer);
-    void LocalPeerEndpointAdded(const LocalNetworkPeerInfo& peer, const boost::asio::ip::udp::endpoint& endpoint);
+    void LocalPeerPathAdded(const LocalNetworkPeerInfo& peer, LocalNetworkPeerPath path);
 
 private:
     void OnStartClicked();

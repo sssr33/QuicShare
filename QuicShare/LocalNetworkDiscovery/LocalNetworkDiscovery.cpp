@@ -43,8 +43,11 @@ void LocalNetworkDiscovery::NewPeerOnChannelAvailable(const LocalNetworkChannelP
 
         newPeer.self = info.localId == localId;
         newPeer.localId = info.localId;
-        newPeer.listenAddress = info.listenAddress;
-        newPeer.endpoints.push_back(info.endpoint);
+        newPeer.paths.push_back({
+            .listenAddress = info.listenAddress,
+            .endpoint = info.endpoint
+            }
+        );
 
         auto added = peers.emplace(info.localId, std::move(newPeer));
 
@@ -52,23 +55,24 @@ void LocalNetworkDiscovery::NewPeerOnChannelAvailable(const LocalNetworkChannelP
     }
     else {
         auto& existingPeer = it->second;
-        auto& existingEndpoints = existingPeer.endpoints;
+        auto& existingPaths = existingPeer.paths;
+        auto newPath = LocalNetworkPeerPath{
+            .listenAddress = info.listenAddress,
+            .endpoint = info.endpoint
+        };
 
-        auto it = std::find_if(existingEndpoints.begin(), existingEndpoints.end(),
-            [&](const boost::asio::ip::udp::endpoint& endpoint)
-            {
-                return endpoint.address() == info.endpoint.address();
-            }
-        );
+        auto it = std::find(existingPaths.begin(), existingPaths.end(), newPath);
 
-        if (it == existingEndpoints.end()) {
-            // new endpoint
-            existingEndpoints.push_back(info.endpoint);
+        if (it == existingPaths.end()) {
+            auto str = newPath.ToString();
 
-            emit LocalPeerEndpointAdded(existingPeer, info.endpoint);
+            // new path
+            existingPaths.push_back(std::move(newPath));
+
+            emit LocalPeerPathAdded(existingPeer, existingPaths.back());
         }
         else {
-            // existing endpoint
+            // existing path
             return;
         }
     }

@@ -118,6 +118,7 @@
     <QtMoc Include="QuicShare.h" />
     <ClCompile Include="LocalNetworkDiscovery\LocalNetworkDiscovery.cpp" />
     <ClCompile Include="LocalNetworkDiscovery\LocalNetworkDiscoveryChannel.cpp" />
+    <ClCompile Include="LocalNetworkDiscovery\LocalNetworkPeerPath.cpp" />
     <ClCompile Include="Log\Log.cpp" />
     <ClCompile Include="QuicShare.cpp" />
     <ClCompile Include="main.cpp" />
@@ -130,6 +131,7 @@
     <ClInclude Include="LocalNetworkDiscovery\LndMessageType.h" />
     <ClInclude Include="LocalNetworkDiscovery\LocalNetworkChannelPeerInfo.h" />
     <ClInclude Include="LocalNetworkDiscovery\LocalNetworkPeerInfo.h" />
+    <ClInclude Include="LocalNetworkDiscovery\LocalNetworkPeerPath.h" />
     <ClInclude Include="SafeBoostAsioInclude.h" />
     <ClInclude Include="Log\Log.h" />
   </ItemGroup>

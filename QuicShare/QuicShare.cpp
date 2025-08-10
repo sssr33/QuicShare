@@ -28,7 +28,7 @@ QuicShare::QuicShare(QWidget *parent)
     localNetworkDiscovery = std::make_unique<LocalNetworkDiscovery>(ioContext, localId);
 
     connect(localNetworkDiscovery.get(), &LocalNetworkDiscovery::LocalPeerAdded, this, &QuicShare::LocalPeerAdded);
-    connect(localNetworkDiscovery.get(), &LocalNetworkDiscovery::LocalPeerEndpointAdded, this, &QuicShare::LocalPeerEndpointAdded);
+    connect(localNetworkDiscovery.get(), &LocalNetworkDiscovery::LocalPeerPathAdded, this, &QuicShare::LocalPeerPathAdded);
 }
 
 QuicShare::~QuicShare()
@@ -37,17 +37,17 @@ QuicShare::~QuicShare()
 void QuicShare::LocalPeerAdded(const LocalNetworkPeerInfo& peer) {
     auto selfOrPeer = peer.self ? "SELF" : "PEER";
     auto& peerId = peer.localId;
-    auto endpointStr = peer.endpoints.front().address().to_string();
+    auto pathStr = peer.paths.front().ToString();
 
-    LOG_INFO("NEW {} added: {} - {}", selfOrPeer, peerId, endpointStr);
+    LOG_INFO("NEW {} added:\n    (id) {}\n    (path) {}", selfOrPeer, peerId, pathStr);
 }
 
-void QuicShare::LocalPeerEndpointAdded(const LocalNetworkPeerInfo& peer, const boost::asio::ip::udp::endpoint& endpoint) {
+void QuicShare::LocalPeerPathAdded(const LocalNetworkPeerInfo& peer, LocalNetworkPeerPath path) {
     auto selfOrPeer = peer.self ? "SELF" : "peer";
     auto& peerId = peer.localId;
-    auto endpointStr = endpoint.address().to_string();
+    auto pathStr = path.ToString();
 
-    LOG_INFO("added {} NEW ENDPOINT: {} - {}", selfOrPeer, peerId, endpointStr);
+    LOG_INFO("added {} NEW ENDPOINT:\n    (id) {}\n    (path) {}", selfOrPeer, peerId, pathStr);
 }
 
 void QuicShare::OnStartClicked() {
