@@ -75,11 +75,13 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <PreprocessorDefinitions>NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <PreprocessorDefinitions>NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
@@ -114,13 +116,20 @@
     <QtRcc Include="QuicShare.qrc" />
     <QtUic Include="QuicShare.ui" />
     <QtMoc Include="QuicShare.h" />
+    <ClCompile Include="LocalNetworkDiscovery\LocalNetworkDiscovery.cpp" />
     <ClCompile Include="LocalNetworkDiscovery\LocalNetworkDiscoveryChannel.cpp" />
     <ClCompile Include="Log\Log.cpp" />
     <ClCompile Include="QuicShare.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LocalNetworkDiscovery\LocalNetworkDiscoveryChannel.h" />
+    <QtMoc Include="LocalNetworkDiscovery\LocalNetworkDiscovery.h" />
+    <QtMoc Include="LocalNetworkDiscovery\LocalNetworkDiscoveryChannel.h" />
+    <ClInclude Include="LocalNetworkDiscovery\LndMessage.h" />
+    <ClInclude Include="LocalNetworkDiscovery\LndMessageAnnounce.h" />
+    <ClInclude Include="LocalNetworkDiscovery\LndMessageType.h" />
+    <ClInclude Include="LocalNetworkDiscovery\LocalNetworkPeerInfo.h" />
+    <ClInclude Include="SafeBoostAsioInclude.h" />
     <ClInclude Include="Log\Log.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

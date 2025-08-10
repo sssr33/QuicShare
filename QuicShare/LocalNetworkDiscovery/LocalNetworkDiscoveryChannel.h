@@ -1,21 +1,24 @@
 #pragma once
+#include "SafeBoostAsioInclude.h"
+#include "LocalNetworkPeerInfo.h"
 
-// order in which boost sees the correct value of _WIN32_WINNT
-// https://stackoverflow.com/questions/9750344/boostasio-winsock-and-winsock-2-compatibility-issue
-// https://github.com/boostorg/beast/issues/1895
-#ifdef _WIN32
-#include <winsock2.h>
-#endif
-#include <boost/asio.hpp>
-
+#include <QObject>
 #include <vector>
 #include <thread>
 
-class LocalNetworkDiscoveryChannel {
+class LocalNetworkDiscoveryChannel : public QObject {
+    Q_OBJECT
 public:
-    LocalNetworkDiscoveryChannel(boost::asio::io_context& ioContext, boost::asio::ip::address listenAddress_);
+    LocalNetworkDiscoveryChannel(
+        boost::asio::io_context& ioContext,
+        boost::asio::ip::address listenAddress_,
+        const std::string& localId_
+    );
 
-    void Test();
+    void Announce();
+
+signals:
+    void NewPeerAvailable(LocalNetworkPeerInfo info);
 
 private:
     void ReceiveHandler(
@@ -24,6 +27,7 @@ private:
     );
 
     const boost::asio::ip::address listenAddress;
+    const std::string localId;
 
     boost::asio::ip::udp::socket socket;
     std::vector<uint8_t> socketReceiveBuffer;

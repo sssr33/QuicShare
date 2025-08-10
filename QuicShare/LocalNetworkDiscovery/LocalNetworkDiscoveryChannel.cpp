@@ -1,4 +1,5 @@
 #include "LocalNetworkDiscoveryChannel.h"
+#include "LndMessageAnnounce.h"
 
 //constexpr auto addrV4 = "239.192.152.143"; // torrent protocol ipv4
 //constexpr auto addrV6 = "ff15::efc0:988f"; // torrent protocol ipv6
@@ -6,8 +7,13 @@ constexpr auto addrV4 = "239.255.0.1"; // differs from torrent protocol
 constexpr auto addrV6 = "ff15::cafe:babe"; // differs from torrent protocol
 constexpr auto port = 30001; // differs from torrent protocol. torrent protocol uses 6771
 
-LocalNetworkDiscoveryChannel::LocalNetworkDiscoveryChannel(boost::asio::io_context& ioContext, boost::asio::ip::address listenAddress_)
+LocalNetworkDiscoveryChannel::LocalNetworkDiscoveryChannel(
+    boost::asio::io_context& ioContext,
+    boost::asio::ip::address listenAddress_,
+    const std::string& localId_
+)
     : listenAddress(listenAddress_)
+    , localId(localId_)
     , socket(ioContext)
     , socketReceiveBuffer(1024 * 4)
 {
@@ -45,7 +51,7 @@ LocalNetworkDiscoveryChannel::LocalNetworkDiscoveryChannel(boost::asio::io_conte
     );
 }
 
-void LocalNetworkDiscoveryChannel::Test() {
+void LocalNetworkDiscoveryChannel::Announce() {
     using namespace boost::asio::ip;
     using namespace boost::asio::ip::multicast;
 
@@ -54,8 +60,14 @@ void LocalNetworkDiscoveryChannel::Test() {
 
     std::string message = "Hello, multicast! From: " + listenAddress.to_string();
 
+    LndMessageAnnounce msg;
+
+    msg.peerId = localId;
+
+    auto jsonStr = JS::serializeStruct(msg, JS::SerializerOptions(JS::SerializerOptions::Compact));
+
     try {
-        socket.send_to(boost::asio::buffer(message), multicastEndpoint);
+        socket.send_to(boost::asio::buffer(jsonStr), multicastEndpoint);
         int stop = 234;
     }
     catch (const std::exception& ex) {
@@ -74,11 +86,48 @@ void LocalNetworkDiscoveryChannel::ReceiveHandler(
 
     if (error) {
         int stop = 234;
+        assert(false);
+        return;
     }
 
-    std::string msg = std::string{ socketReceiveBuffer.begin(), socketReceiveBuffer.begin() + bytesTransferred };
+    std::string msgStr = std::string{ socketReceiveBuffer.begin(), socketReceiveBuffer.begin() + bytesTransferred };
 
-    int stop = 234;
+    LndMessage msgBase;
+
+    {
+        JS::ParseContext context(msgStr);
+        auto parseError = context.parseTo(msgBase);
+        if (parseError != JS::Error::NoError) {
+            assert(false);
+            return;
+        }
+    }
+
+    JS::ParseContext context(msgStr);
+
+    switch (msgBase.type) {
+    case LndMessageType::Announce: {
+        LndMessageAnnounce msg;
+        auto parseError = context.parseTo(msg);
+        if (parseError != JS::Error::NoError) {
+            assert(false);
+            return;
+        }
+
+        LocalNetworkPeerInfo peerInfo;
+
+        peerInfo.localId = msg.peerId;
+        peerInfo.listenAddress = listenAddress;
+        peerInfo.endpoint = socketReceiveEndpoint;
+
+        emit NewPeerAvailable(peerInfo);
+
+        break;
+    }
+    default:
+        assert(false);
+        break;
+    }
 
     socket.async_receive_from(
         boost::asio::buffer(socketReceiveBuffer),

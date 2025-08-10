@@ -29,12 +29,19 @@
     <ClCompile Include="QuicShare.cpp" />
     <ClCompile Include="Log\Log.cpp" />
     <ClCompile Include="LocalNetworkDiscovery\LocalNetworkDiscoveryChannel.cpp" />
+    <ClCompile Include="LocalNetworkDiscovery\LocalNetworkDiscovery.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="QuicShare.h" />
+    <QtMoc Include="LocalNetworkDiscovery\LocalNetworkDiscoveryChannel.h" />
+    <QtMoc Include="LocalNetworkDiscovery\LocalNetworkDiscovery.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Log\Log.h" />
-    <ClInclude Include="LocalNetworkDiscovery\LocalNetworkDiscoveryChannel.h" />
+    <ClInclude Include="LocalNetworkDiscovery\LocalNetworkPeerInfo.h" />
+    <ClInclude Include="SafeBoostAsioInclude.h" />
+    <ClInclude Include="LocalNetworkDiscovery\LndMessage.h" />
+    <ClInclude Include="LocalNetworkDiscovery\LndMessageType.h" />
+    <ClInclude Include="LocalNetworkDiscovery\LndMessageAnnounce.h" />
   </ItemGroup>
 </Project>

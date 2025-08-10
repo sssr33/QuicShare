@@ -1,6 +1,10 @@
 #include "QuicShare.h"
 #include "Log/Log.h"
 
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/uuid_io.hpp>
+
 QuicShare::QuicShare(QWidget *parent)
     : QMainWindow(parent)
     , ioContextThread(&QuicShare::IoContextThreadMain, this)
@@ -15,21 +19,13 @@ QuicShare::QuicShare(QWidget *parent)
     connect(ui.startButton, &QPushButton::clicked, this, &QuicShare::OnStartClicked);
 
     {
-        boost::asio::ip::udp::resolver resolver(ioContext);
-        auto it = resolver.resolve(boost::asio::ip::host_name(), "", boost::asio::ip::resolver_base::flags::passive);
+        boost::uuids::random_generator gen;
+        boost::uuids::uuid u = gen();
 
-        for (const auto& e : it) {
-            auto addr = e.endpoint().address();
-            auto str = addr.to_string();
-            auto isv4 = addr.is_v4();
-            auto isLoopback = addr.is_loopback();
-
-            if (!addr.is_loopback()) {
-                auto lnd = std::make_unique<LocalNetworkDiscoveryChannel>(ioContext, addr);
-                localNetworkDiscovery.push_back(std::move(lnd));
-            }
-        }
+        localId = boost::uuids::to_string(u);
     }
+
+    localNetworkDiscovery = std::make_unique<LocalNetworkDiscovery>(ioContext, localId);
 }
 
 QuicShare::~QuicShare()
@@ -38,13 +34,10 @@ QuicShare::~QuicShare()
 void QuicShare::OnStartClicked() {
     LOG_INFO("start clicked");
 
-    for (auto& lnd : localNetworkDiscovery) {
-        lnd->Test();
-    }
+    localNetworkDiscovery->Announce();
 }
 
 void QuicShare::IoContextThreadMain() {
     auto work_guard = boost::asio::make_work_guard(ioContext);
     ioContext.run();
-    int stop = 234;
 }
