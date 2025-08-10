@@ -114,7 +114,7 @@ void LocalNetworkDiscoveryChannel::ReceiveHandler(
             return;
         }
 
-        LocalNetworkPeerInfo peerInfo;
+        LocalNetworkChannelPeerInfo peerInfo;
 
         peerInfo.localId = msg.peerId;
         peerInfo.listenAddress = listenAddress;

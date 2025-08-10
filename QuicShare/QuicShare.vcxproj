@@ -128,7 +128,7 @@
     <ClInclude Include="LocalNetworkDiscovery\LndMessage.h" />
     <ClInclude Include="LocalNetworkDiscovery\LndMessageAnnounce.h" />
     <ClInclude Include="LocalNetworkDiscovery\LndMessageType.h" />
-    <ClInclude Include="LocalNetworkDiscovery\LocalNetworkPeerInfo.h" />
+    <ClInclude Include="LocalNetworkDiscovery\LocalNetworkChannelPeerInfo.h" />
     <ClInclude Include="SafeBoostAsioInclude.h" />
     <ClInclude Include="Log\Log.h" />
   </ItemGroup>

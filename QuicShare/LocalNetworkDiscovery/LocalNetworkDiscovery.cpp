@@ -15,7 +15,7 @@ LocalNetworkDiscovery::LocalNetworkDiscovery(boost::asio::io_context& ioContext_
 
         if (!addr.is_loopback()) {
             auto lnd = std::make_unique<LocalNetworkDiscoveryChannel>(ioContext, addr, localId);
-            connect(lnd.get(), &LocalNetworkDiscoveryChannel::NewPeerAvailable, this, &LocalNetworkDiscovery::NewPeerAvailable);
+            connect(lnd.get(), &LocalNetworkDiscoveryChannel::NewPeerAvailable, this, &LocalNetworkDiscovery::NewPeerOnChannelAvailable);
             channels.push_back(std::move(lnd));
         }
     }
@@ -27,7 +27,7 @@ void LocalNetworkDiscovery::Announce() {
     }
 }
 
-void LocalNetworkDiscovery::NewPeerAvailable(const LocalNetworkPeerInfo& info) {
+void LocalNetworkDiscovery::NewPeerOnChannelAvailable(const LocalNetworkChannelPeerInfo& info) {
     auto listen = info.listenAddress.to_string();
     auto endpoint = info.endpoint.address().to_string();
 

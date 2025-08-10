@@ -1,6 +1,6 @@
 #pragma once
 #include "SafeBoostAsioInclude.h"
-#include "LocalNetworkPeerInfo.h"
+#include "LocalNetworkChannelPeerInfo.h"
 
 #include <QObject>
 #include <vector>
@@ -18,7 +18,7 @@ public:
     void Announce();
 
 signals:
-    void NewPeerAvailable(LocalNetworkPeerInfo info);
+    void NewPeerAvailable(LocalNetworkChannelPeerInfo info);
 
 private:
     void ReceiveHandler(

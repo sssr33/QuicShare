@@ -3,8 +3,8 @@
 
 #include <string>
 
-struct LocalNetworkPeerInfo {
+struct LocalNetworkChannelPeerInfo {
     std::string localId;
-    boost::asio::ip::udp::endpoint endpoint;
     boost::asio::ip::address listenAddress;
+    boost::asio::ip::udp::endpoint endpoint;
 };

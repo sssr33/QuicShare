@@ -38,7 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Log\Log.h" />
-    <ClInclude Include="LocalNetworkDiscovery\LocalNetworkPeerInfo.h" />
+    <ClInclude Include="LocalNetworkDiscovery\LocalNetworkChannelPeerInfo.h" />
     <ClInclude Include="SafeBoostAsioInclude.h" />
     <ClInclude Include="LocalNetworkDiscovery\LndMessage.h" />
     <ClInclude Include="LocalNetworkDiscovery\LndMessageType.h" />

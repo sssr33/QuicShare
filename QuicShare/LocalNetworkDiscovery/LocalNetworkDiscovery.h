@@ -13,7 +13,7 @@ public:
     void Announce();
 
 private slots:
-    void NewPeerAvailable(const LocalNetworkPeerInfo& info);
+    void NewPeerOnChannelAvailable(const LocalNetworkChannelPeerInfo& info);
 
 private:
     boost::asio::io_context& ioContext;
