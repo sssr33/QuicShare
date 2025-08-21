@@ -2,7 +2,8 @@
     "dependencies": [
 		"spdlog",
 		"boost-uuid",
-		"boost-asio"
+		"boost-asio",
+		{ "name": "msquic", "features": [ "0-rtt" ] }
     ],
 	"overrides": [
 		{
@@ -16,6 +17,10 @@
 		{
 			"name": "boost-asio",
 			"version": "1.88.0"
+		},
+		{
+			"name": "msquic",
+			"version": "2.4.8"
 		}
 	]
 }

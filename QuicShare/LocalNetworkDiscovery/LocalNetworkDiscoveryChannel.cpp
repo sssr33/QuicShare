@@ -56,6 +56,10 @@ LocalNetworkDiscoveryChannel::LocalNetworkDiscoveryChannel(
     );
 }
 
+const boost::asio::ip::address& LocalNetworkDiscoveryChannel::GetListenAddress() const {
+    return listenAddress;
+}
+
 void LocalNetworkDiscoveryChannel::Announce() {
     using namespace boost::asio::ip;
     using namespace boost::asio::ip::multicast;

@@ -1,5 +1,6 @@
 #include "QuicShare.h"
 #include "Log/Log.h"
+#include "QUIC/MsQuic.h"
 
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
@@ -25,7 +26,18 @@ QuicShare::QuicShare(QWidget *parent)
         localId = boost::uuids::to_string(u);
     }
 
+    MsQuic::GetInstance().Init();
+
     localNetworkDiscovery = std::make_unique<LocalNetworkDiscovery>(ioContext, localId);
+
+    auto listenAddr = localNetworkDiscovery->GetListenAddresses();
+
+    {
+        auto i = listenAddr.front();
+
+        auto listener = std::make_unique<MsQuicListener>(i, "server.cert", "server.key");
+        quicListeners.push_back(std::move(listener));
+    }
 
     connect(localNetworkDiscovery.get(), &LocalNetworkDiscovery::LocalPeerAdded, this, &QuicShare::LocalPeerAdded);
     connect(localNetworkDiscovery.get(), &LocalNetworkDiscovery::LocalPeerPathAdded, this, &QuicShare::LocalPeerPathAdded);

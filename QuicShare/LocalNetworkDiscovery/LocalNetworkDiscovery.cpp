@@ -21,14 +21,24 @@ LocalNetworkDiscovery::LocalNetworkDiscovery(boost::asio::io_context& ioContext_
     }
 }
 
+const std::map<std::string, LocalNetworkPeerInfo>& LocalNetworkDiscovery::GetPeers() const {
+    return peers;
+}
+
+std::vector<boost::asio::ip::address> LocalNetworkDiscovery::GetListenAddresses() const {
+    std::vector<boost::asio::ip::address> addresses;
+
+    for (auto& i : channels) {
+        addresses.push_back(i->GetListenAddress());
+    }
+
+    return addresses;
+}
+
 void LocalNetworkDiscovery::Announce() {
     for (auto& i : channels) {
         i->Announce();
     }
-}
-
-const std::map<std::string, LocalNetworkPeerInfo>& LocalNetworkDiscovery::GetPeers() const {
-    return peers;
 }
 
 void LocalNetworkDiscovery::NewPeerOnChannelAvailable(const LocalNetworkChannelPeerInfo& info) {

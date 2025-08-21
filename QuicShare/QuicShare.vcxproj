@@ -122,6 +122,8 @@
     <ClCompile Include="LocalNetworkDiscovery\LocalNetworkDiscoveryChannel.cpp" />
     <ClCompile Include="LocalNetworkDiscovery\LocalNetworkPeerPath.cpp" />
     <ClCompile Include="Log\Log.cpp" />
+    <ClCompile Include="QUIC\MsQuicListener.cpp" />
+    <ClCompile Include="QUIC\MsQuic.cpp" />
     <ClCompile Include="QuicShare.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -135,13 +137,19 @@
     <ClInclude Include="LocalNetworkDiscovery\LocalNetworkChannelPeerInfo.h" />
     <ClInclude Include="LocalNetworkDiscovery\LocalNetworkPeerInfo.h" />
     <ClInclude Include="LocalNetworkDiscovery\LocalNetworkPeerPath.h" />
+    <ClInclude Include="QUIC\MsQuicListener.h" />
+    <ClInclude Include="QUIC\MsQuic.h" />
     <ClInclude Include="SafeBoostAsioInclude.h" />
     <ClInclude Include="Log\Log.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="QuicShare.targets" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
     <Import Project="$(QtMsBuild)\qt.targets" />
   </ImportGroup>
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(ProjectDir)\QuicShare.targets" />
   </ImportGroup>
 </Project>

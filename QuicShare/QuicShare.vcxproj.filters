@@ -31,6 +31,8 @@
     <ClCompile Include="LocalNetworkDiscovery\LocalNetworkDiscoveryChannel.cpp" />
     <ClCompile Include="LocalNetworkDiscovery\LocalNetworkDiscovery.cpp" />
     <ClCompile Include="LocalNetworkDiscovery\LocalNetworkPeerPath.cpp" />
+    <ClCompile Include="QUIC\MsQuic.cpp" />
+    <ClCompile Include="QUIC\MsQuicListener.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="QuicShare.h" />
@@ -47,5 +49,7 @@
     <ClInclude Include="LocalNetworkDiscovery\LocalNetworkPeerInfo.h" />
     <ClInclude Include="LocalNetworkDiscovery\LocalNetworkPeerPath.h" />
     <ClInclude Include="Helpers\scope_exit.h" />
+    <ClInclude Include="QUIC\MsQuic.h" />
+    <ClInclude Include="QUIC\MsQuicListener.h" />
   </ItemGroup>
 </Project>

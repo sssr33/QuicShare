@@ -15,6 +15,8 @@ public:
         const std::string& localId_
     );
 
+    const boost::asio::ip::address& GetListenAddress() const;
+
     void Announce();
 
 signals:

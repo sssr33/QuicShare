@@ -1,6 +1,7 @@
 #pragma once
 #include "ui_QuicShare.h"
 #include "LocalNetworkDiscovery/LocalNetworkDiscovery.h"
+#include "QUIC/MsQuicListener.h"
 
 #include <QtWidgets/QMainWindow>
 #include <vector>
@@ -26,6 +27,8 @@ private:
     boost::asio::io_context ioContext;
     std::unique_ptr<LocalNetworkDiscovery> localNetworkDiscovery;
     std::string localId;
+
+    std::vector<std::unique_ptr<MsQuicListener>> quicListeners;
 
     std::jthread ioContextThread;
 };
