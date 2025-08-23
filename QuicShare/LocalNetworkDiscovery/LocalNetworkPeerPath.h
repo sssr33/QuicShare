@@ -12,4 +12,5 @@ struct LocalNetworkPeerPath {
     // When communicating with this peer, it may be preferable to send requests from this address.
     boost::asio::ip::address listenAddress;
     boost::asio::ip::udp::endpoint endpoint;
+    uint16_t quicPort = 0;
 };

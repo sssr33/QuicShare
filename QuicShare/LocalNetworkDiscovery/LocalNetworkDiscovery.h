@@ -1,6 +1,7 @@
 #pragma once
 #include "LocalNetworkDiscoveryChannel.h"
 #include "LocalNetworkPeerInfo.h"
+#include "LocalNetworkDiscoveryEndpoint.h"
 
 #include <QObject>
 #include <vector>
@@ -13,7 +14,7 @@ public:
     LocalNetworkDiscovery(
         boost::asio::io_context& ioContext_,
         const std::string& localId_,
-        const std::vector<boost::asio::ip::udp::endpoint>& listenEndpoints
+        const std::vector<LocalNetworkDiscoveryEndpoint>& listenEndpoints
     );
 
     const std::map<std::string, LocalNetworkPeerInfo>& GetPeers() const;

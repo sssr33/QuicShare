@@ -31,17 +31,8 @@ QuicShare::QuicShare(QWidget *parent)
 
     auto adapterEndpoints = NetworkAdapterEnum::Enum(ioContext);
 
-    localNetworkDiscovery = std::make_unique<LocalNetworkDiscovery>(ioContext, localId, adapterEndpoints);
-
-    {
-        auto i = adapterEndpoints.front().address();
-
-        auto listener = std::make_unique<MsQuicListener>(i, "server.cert", "server.key");
-        quicListeners.push_back(std::move(listener));
-    }
-
-    connect(localNetworkDiscovery.get(), &LocalNetworkDiscovery::LocalPeerAdded, this, &QuicShare::LocalPeerAdded);
-    connect(localNetworkDiscovery.get(), &LocalNetworkDiscovery::LocalPeerPathAdded, this, &QuicShare::LocalPeerPathAdded);
+    StartQuicListeners(adapterEndpoints);
+    StartLocalNetworkDiscovery();
 }
 
 QuicShare::~QuicShare() {
@@ -52,6 +43,12 @@ void QuicShare::LocalPeerAdded(const LocalNetworkPeerInfo& peer) {
     auto selfOrPeer = peer.self ? "SELF" : "PEER";
     auto& peerId = peer.localId;
     auto pathStr = peer.paths.front().ToString();
+
+    /*if (!peer.self && quicListeners.empty()) {
+        auto& path = peer.paths.front();
+        auto listener = std::make_unique<MsQuicListener>(path.listenAddress, "server.cert", "server.key");
+        quicListeners.push_back(std::move(listener));
+    }*/
 
     LOG_INFO("NEW {} added:\n    (id) {}\n    (path) {}", selfOrPeer, peerId, pathStr);
 }
@@ -73,4 +70,37 @@ void QuicShare::OnStartClicked() {
 void QuicShare::IoContextThreadMain() {
     auto workGuard = boost::asio::make_work_guard(ioContext);
     ioContext.run();
+}
+
+void QuicShare::StartQuicListeners(const std::vector<boost::asio::ip::udp::endpoint>& adapterEndpoints) {
+    for (auto& i : adapterEndpoints) {
+        auto addr = i.address();
+        auto str = addr.to_string();
+        auto isv4 = addr.is_v4();
+        auto isLoopback = addr.is_loopback();
+
+        if (i.address().is_loopback()) {
+            continue;
+        }
+
+        auto listener = std::make_unique<MsQuicListener>(i, "server.cert", "server.key");
+        quicListeners.push_back(std::move(listener));
+    }
+}
+
+void QuicShare::StartLocalNetworkDiscovery() {
+    std::vector<LocalNetworkDiscoveryEndpoint> lndEndpoints;
+
+    for (auto& i : quicListeners) {
+        lndEndpoints.push_back(
+            LocalNetworkDiscoveryEndpoint {
+                .endpoint = i->GetListenEndpoint(),
+                .quicPort = i->GetListenPort()
+            });
+    }
+
+    localNetworkDiscovery = std::make_unique<LocalNetworkDiscovery>(ioContext, localId, lndEndpoints);
+
+    connect(localNetworkDiscovery.get(), &LocalNetworkDiscovery::LocalPeerAdded, this, &QuicShare::LocalPeerAdded);
+    connect(localNetworkDiscovery.get(), &LocalNetworkDiscovery::LocalPeerPathAdded, this, &QuicShare::LocalPeerPathAdded);
 }

@@ -136,6 +136,7 @@
     <ClInclude Include="LocalNetworkDiscovery\LndMessageAnnounce.h" />
     <ClInclude Include="LocalNetworkDiscovery\LndMessageType.h" />
     <ClInclude Include="LocalNetworkDiscovery\LocalNetworkChannelPeerInfo.h" />
+    <ClInclude Include="LocalNetworkDiscovery\LocalNetworkDiscoveryEndpoint.h" />
     <ClInclude Include="LocalNetworkDiscovery\LocalNetworkPeerInfo.h" />
     <ClInclude Include="LocalNetworkDiscovery\LocalNetworkPeerPath.h" />
     <ClInclude Include="Helpers\NetworkAdapterEnum.h" />

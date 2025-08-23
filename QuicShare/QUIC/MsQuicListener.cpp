@@ -6,15 +6,24 @@ const QUIC_BUFFER MsQuicListener::Alpn = {
 };
 
 MsQuicListener::MsQuicListener(
-    const boost::asio::ip::address& listenAddress,
+    const boost::asio::ip::udp::endpoint& listenEndpoint_,
     const char* certPath,
     const char* keyPath
 )
+    : listenEndpoint(listenEndpoint_)
 {
     InitConfiguration();
     InitCredentials(certPath, keyPath);
 
-    StartListen(listenAddress);
+    StartListen(listenEndpoint.address());
+}
+
+const boost::asio::ip::udp::endpoint& MsQuicListener::GetListenEndpoint() const {
+    return listenEndpoint;
+}
+
+uint16_t MsQuicListener::GetListenPort() const {
+    return listenPort;
 }
 
 void MsQuicListener::InitConfiguration() {
@@ -96,6 +105,17 @@ void MsQuicListener::StartListen(const boost::asio::ip::address& listenAddress) 
         assert(false);
         return;
     }
+
+    QUIC_ADDR listenAddr = {};
+    uint32_t bufLength = static_cast<uint32_t>(sizeof(listenAddr));
+
+    quicRes = msQuic->GetParam(listener, QUIC_PARAM_LISTENER_LOCAL_ADDRESS, &bufLength, &listenAddr);
+    if (QUIC_FAILED(quicRes)) {
+        assert(false);
+        return;
+    }
+
+    listenPort = QuicAddrGetPort(&listenAddr);
 }
 
 QUIC_STATUS MsQuicListener::ListenerCallback(

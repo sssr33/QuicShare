@@ -53,6 +53,7 @@
     <ClInclude Include="QUIC\MsQuic.h" />
     <ClInclude Include="QUIC\MsQuicListener.h" />
     <ClInclude Include="Helpers\NetworkAdapterEnum.h" />
+    <ClInclude Include="LocalNetworkDiscovery\LocalNetworkDiscoveryEndpoint.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="QuicShare.targets" />

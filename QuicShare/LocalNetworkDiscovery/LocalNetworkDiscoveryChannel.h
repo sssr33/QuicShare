@@ -12,7 +12,8 @@ public:
     LocalNetworkDiscoveryChannel(
         boost::asio::io_context& ioContext,
         boost::asio::ip::address listenAddress_,
-        const std::string& localId_
+        const std::string& localId_,
+        uint16_t quicPort_
     );
 
     const boost::asio::ip::address& GetListenAddress() const;
@@ -30,6 +31,7 @@ private:
 
     const boost::asio::ip::address listenAddress;
     const std::string localId;
+    const uint16_t quicPort;
 
     boost::asio::ip::udp::socket socket;
     std::vector<uint8_t> socketReceiveBuffer;

@@ -3,22 +3,17 @@
 LocalNetworkDiscovery::LocalNetworkDiscovery(
     boost::asio::io_context& ioContext_,
     const std::string& localId_,
-    const std::vector<boost::asio::ip::udp::endpoint>& listenEndpoints
+    const std::vector<LocalNetworkDiscoveryEndpoint>& listenEndpoints
 )
     : ioContext(ioContext_)
     , localId(localId_)
 {
     for (auto& e : listenEndpoints) {
-        auto addr = e.address();
-        auto str = addr.to_string();
-        auto isv4 = addr.is_v4();
-        auto isLoopback = addr.is_loopback();
+        auto addr = e.endpoint.address();
 
-        if (!addr.is_loopback()) {
-            auto lnd = std::make_unique<LocalNetworkDiscoveryChannel>(ioContext, addr, localId);
-            connect(lnd.get(), &LocalNetworkDiscoveryChannel::NewPeerAvailable, this, &LocalNetworkDiscovery::NewPeerOnChannelAvailable);
-            channels.push_back(std::move(lnd));
-        }
+        auto lnd = std::make_unique<LocalNetworkDiscoveryChannel>(ioContext, addr, localId, e.quicPort);
+        connect(lnd.get(), &LocalNetworkDiscoveryChannel::NewPeerAvailable, this, &LocalNetworkDiscovery::NewPeerOnChannelAvailable);
+        channels.push_back(std::move(lnd));
     }
 }
 
@@ -69,7 +64,8 @@ void LocalNetworkDiscovery::NewPeerOnChannelAvailable(const LocalNetworkChannelP
         auto& existingPaths = existingPeer.paths;
         auto newPath = LocalNetworkPeerPath{
             .listenAddress = info.listenAddress,
-            .endpoint = info.endpoint
+            .endpoint = info.endpoint,
+            .quicPort = info.quicPort
         };
 
         auto it = std::find(existingPaths.begin(), existingPaths.end(), newPath);

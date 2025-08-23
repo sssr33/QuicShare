@@ -7,10 +7,13 @@
 class MsQuicListener {
 public:
     MsQuicListener(
-        const boost::asio::ip::address& listenAddress,
+        const boost::asio::ip::udp::endpoint& listenEndpoint_,
         const char* certPath,
         const char* keyPath
     );
+
+    const boost::asio::ip::udp::endpoint& GetListenEndpoint() const;
+    uint16_t GetListenPort() const;
 
 private:
     void InitConfiguration();
@@ -39,4 +42,6 @@ private:
 
     HQUIC configuration = nullptr;
     HQUIC listener = nullptr;
+    boost::asio::ip::udp::endpoint listenEndpoint;
+    uint16_t listenPort = 0;
 };

@@ -11,10 +11,12 @@ constexpr auto port = 30001; // differs from torrent protocol. torrent protocol 
 LocalNetworkDiscoveryChannel::LocalNetworkDiscoveryChannel(
     boost::asio::io_context& ioContext,
     boost::asio::ip::address listenAddress_,
-    const std::string& localId_
+    const std::string& localId_,
+    uint16_t quicPort_
 )
     : listenAddress(listenAddress_)
     , localId(localId_)
+    , quicPort(quicPort_)
     , socket(ioContext)
     , socketReceiveBuffer(1024 * 4)
 {
@@ -70,6 +72,7 @@ void LocalNetworkDiscoveryChannel::Announce() {
     LndMessageAnnounce msg;
 
     msg.peerId = localId;
+    msg.quicPort = quicPort;
 
     auto jsonStr = JS::serializeStruct(msg, JS::SerializerOptions(JS::SerializerOptions::Compact));
 
@@ -133,6 +136,7 @@ void LocalNetworkDiscoveryChannel::ReceiveHandler(
         LocalNetworkChannelPeerInfo peerInfo;
 
         peerInfo.localId = msg.peerId;
+        peerInfo.quicPort = msg.quicPort;
         peerInfo.listenAddress = listenAddress;
         peerInfo.endpoint = socketReceiveEndpoint;
 

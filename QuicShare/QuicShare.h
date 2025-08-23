@@ -22,6 +22,9 @@ private:
     void OnStartClicked();
     void IoContextThreadMain();
 
+    void StartQuicListeners(const std::vector<boost::asio::ip::udp::endpoint>& adapterEndpoints);
+    void StartLocalNetworkDiscovery();
+
     Ui::QuicShareClass ui;
 
     boost::asio::io_context ioContext;
