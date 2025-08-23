@@ -123,6 +123,10 @@
     <ClCompile Include="LocalNetworkDiscovery\LocalNetworkPeerPath.cpp" />
     <ClCompile Include="Log\Log.cpp" />
     <ClCompile Include="Helpers\NetworkAdapterEnum.cpp" />
+    <ClCompile Include="QUIC\MsQuicHelpers.cpp" />
+    <ClCompile Include="QUIC\MsQuicConfigurationFactory.cpp" />
+    <ClCompile Include="QUIC\MsQuicConnection.cpp" />
+    <ClCompile Include="QUIC\MsQuicStream.cpp" />
     <ClCompile Include="QUIC\MsQuicListener.cpp" />
     <ClCompile Include="QUIC\MsQuic.cpp" />
     <ClCompile Include="QuicShare.cpp" />
@@ -140,6 +144,10 @@
     <ClInclude Include="LocalNetworkDiscovery\LocalNetworkPeerInfo.h" />
     <ClInclude Include="LocalNetworkDiscovery\LocalNetworkPeerPath.h" />
     <ClInclude Include="Helpers\NetworkAdapterEnum.h" />
+    <ClInclude Include="QUIC\MsQuicHelpers.h" />
+    <ClInclude Include="QUIC\MsQuicConfigurationFactory.h" />
+    <ClInclude Include="QUIC\MsQuicConnection.h" />
+    <ClInclude Include="QUIC\MsQuicStream.h" />
     <ClInclude Include="QUIC\MsQuicListener.h" />
     <ClInclude Include="QUIC\MsQuic.h" />
     <ClInclude Include="SafeBoostAsioInclude.h" />

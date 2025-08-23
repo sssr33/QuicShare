@@ -34,6 +34,10 @@
     <ClCompile Include="QUIC\MsQuic.cpp" />
     <ClCompile Include="QUIC\MsQuicListener.cpp" />
     <ClCompile Include="Helpers\NetworkAdapterEnum.cpp" />
+    <ClCompile Include="QUIC\MsQuicStream.cpp" />
+    <ClCompile Include="QUIC\MsQuicConnection.cpp" />
+    <ClCompile Include="QUIC\MsQuicConfigurationFactory.cpp" />
+    <ClCompile Include="QUIC\MsQuicHelpers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="QuicShare.h" />
@@ -54,6 +58,10 @@
     <ClInclude Include="QUIC\MsQuicListener.h" />
     <ClInclude Include="Helpers\NetworkAdapterEnum.h" />
     <ClInclude Include="LocalNetworkDiscovery\LocalNetworkDiscoveryEndpoint.h" />
+    <ClInclude Include="QUIC\MsQuicStream.h" />
+    <ClInclude Include="QUIC\MsQuicConnection.h" />
+    <ClInclude Include="QUIC\MsQuicConfigurationFactory.h" />
+    <ClInclude Include="QUIC\MsQuicHelpers.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="QuicShare.targets" />

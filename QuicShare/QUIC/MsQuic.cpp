@@ -1,4 +1,5 @@
 #include "MsQuic.h"
+#include "MsQuicConfigurationFactory.h"
 
 #include <cassert>
 #include <string>
@@ -16,6 +17,14 @@ HQUIC MsQuic::GetRegistration() const {
     return registration;
 }
 
+HQUIC MsQuic::GetServerConfig() const {
+    return serverConfiguration;
+}
+
+HQUIC MsQuic::GetClientConfig() const {
+    return clientConfiguration;
+}
+
 void MsQuic::Init() {
     QUIC_STATUS quicRes = QUIC_STATUS_SUCCESS;
 
@@ -26,6 +35,7 @@ void MsQuic::Init() {
     }
 
     InitRegistration();
+    InitConfigurations();
 }
 
 void MsQuic::InitRegistration() {
@@ -40,4 +50,22 @@ void MsQuic::InitRegistration() {
         assert(false);
         return;
     }
+}
+
+void MsQuic::InitConfigurations() {
+    auto [resServer, confServer] = MsQuicConfigurationFactory::CreateServerConfig();
+    if (QUIC_FAILED(resServer)) {
+        assert(false);
+        return;
+    }
+
+    serverConfiguration = confServer;
+
+    auto [resClient, confClient] = MsQuicConfigurationFactory::CreateClientConfig();
+    if (QUIC_FAILED(resClient)) {
+        assert(false);
+        return;
+    }
+
+    clientConfiguration = confClient;
 }

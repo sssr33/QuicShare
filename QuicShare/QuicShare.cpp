@@ -44,11 +44,12 @@ void QuicShare::LocalPeerAdded(const LocalNetworkPeerInfo& peer) {
     auto& peerId = peer.localId;
     auto pathStr = peer.paths.front().ToString();
 
-    /*if (!peer.self && quicListeners.empty()) {
+    if (!peer.self && !quicConnection) {
         auto& path = peer.paths.front();
-        auto listener = std::make_unique<MsQuicListener>(path.listenAddress, "server.cert", "server.key");
-        quicListeners.push_back(std::move(listener));
-    }*/
+        quicConnection = std::make_unique<MsQuicConnection>();
+
+        quicConnection->Connect(path);
+    }
 
     LOG_INFO("NEW {} added:\n    (id) {}\n    (path) {}", selfOrPeer, peerId, pathStr);
 }
@@ -83,7 +84,7 @@ void QuicShare::StartQuicListeners(const std::vector<boost::asio::ip::udp::endpo
             continue;
         }
 
-        auto listener = std::make_unique<MsQuicListener>(i, "server.cert", "server.key");
+        auto listener = std::make_unique<MsQuicListener>(i);
         quicListeners.push_back(std::move(listener));
     }
 }

@@ -2,6 +2,7 @@
 #include "ui_QuicShare.h"
 #include "LocalNetworkDiscovery/LocalNetworkDiscovery.h"
 #include "QUIC/MsQuicListener.h"
+#include "QUIC/MsQuicConnection.h"
 
 #include <QtWidgets/QMainWindow>
 #include <vector>
@@ -32,6 +33,7 @@ private:
     std::string localId;
 
     std::vector<std::unique_ptr<MsQuicListener>> quicListeners;
+    std::unique_ptr<MsQuicConnection> quicConnection;
 
     std::jthread ioContextThread;
 };
