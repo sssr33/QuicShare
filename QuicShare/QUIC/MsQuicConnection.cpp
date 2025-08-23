@@ -2,7 +2,6 @@
 #include "MsQuicHelpers.h"
 
 MsQuicConnection::MsQuicConnection() {
-
 }
 
 void MsQuicConnection::Connect(const LocalNetworkPeerPath& path) {
@@ -40,7 +39,9 @@ void MsQuicConnection::Connect(const LocalNetworkPeerPath& path) {
         return;
     }
 
-    quicRes = msQuic->ConnectionStart(connection, msQuicInstance.GetClientConfig(), addrFamily, remoteAddr.to_string().c_str(), path.quicPort);
+    auto addrStr = remoteAddr.to_string();
+
+    quicRes = msQuic->ConnectionStart(connection, msQuicInstance.GetClientConfig(), addrFamily, addrStr.c_str(), path.quicPort);
     if (QUIC_FAILED(quicRes)) {
         assert(false);
         return;

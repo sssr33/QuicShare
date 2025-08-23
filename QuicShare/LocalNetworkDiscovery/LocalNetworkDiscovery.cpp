@@ -47,13 +47,15 @@ void LocalNetworkDiscovery::NewPeerOnChannelAvailable(const LocalNetworkChannelP
     if (it == peers.end()) {
         LocalNetworkPeerInfo newPeer;
 
+        auto newPath = LocalNetworkPeerPath{
+            .listenAddress = info.listenAddress,
+            .endpoint = info.endpoint,
+            .quicPort = info.quicPort
+        };
+
         newPeer.self = info.localId == localId;
         newPeer.localId = info.localId;
-        newPeer.paths.push_back({
-            .listenAddress = info.listenAddress,
-            .endpoint = info.endpoint
-            }
-        );
+        newPeer.paths.push_back(newPath);
 
         auto added = peers.emplace(info.localId, std::move(newPeer));
 
