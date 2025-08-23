@@ -1,6 +1,7 @@
 #include "QuicShare.h"
 #include "Log/Log.h"
 #include "QUIC/MsQuic.h"
+#include "Helpers/NetworkAdapterEnum.h"
 
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
@@ -28,12 +29,12 @@ QuicShare::QuicShare(QWidget *parent)
 
     MsQuic::GetInstance().Init();
 
-    localNetworkDiscovery = std::make_unique<LocalNetworkDiscovery>(ioContext, localId);
+    auto adapterEndpoints = NetworkAdapterEnum::Enum(ioContext);
 
-    auto listenAddr = localNetworkDiscovery->GetListenAddresses();
+    localNetworkDiscovery = std::make_unique<LocalNetworkDiscovery>(ioContext, localId, adapterEndpoints);
 
     {
-        auto i = listenAddr.front();
+        auto i = adapterEndpoints.front().address();
 
         auto listener = std::make_unique<MsQuicListener>(i, "server.cert", "server.key");
         quicListeners.push_back(std::move(listener));

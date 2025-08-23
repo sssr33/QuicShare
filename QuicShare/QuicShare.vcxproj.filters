@@ -33,6 +33,7 @@
     <ClCompile Include="LocalNetworkDiscovery\LocalNetworkPeerPath.cpp" />
     <ClCompile Include="QUIC\MsQuic.cpp" />
     <ClCompile Include="QUIC\MsQuicListener.cpp" />
+    <ClCompile Include="Helpers\NetworkAdapterEnum.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="QuicShare.h" />
@@ -51,5 +52,9 @@
     <ClInclude Include="Helpers\scope_exit.h" />
     <ClInclude Include="QUIC\MsQuic.h" />
     <ClInclude Include="QUIC\MsQuicListener.h" />
+    <ClInclude Include="Helpers\NetworkAdapterEnum.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="QuicShare.targets" />
   </ItemGroup>
 </Project>

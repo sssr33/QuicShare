@@ -10,7 +10,11 @@
 class LocalNetworkDiscovery : public QObject {
     Q_OBJECT
 public:
-    LocalNetworkDiscovery(boost::asio::io_context& ioContext_, const std::string& localId_);
+    LocalNetworkDiscovery(
+        boost::asio::io_context& ioContext_,
+        const std::string& localId_,
+        const std::vector<boost::asio::ip::udp::endpoint>& listenEndpoints
+    );
 
     const std::map<std::string, LocalNetworkPeerInfo>& GetPeers() const;
     std::vector<boost::asio::ip::address> GetListenAddresses() const;

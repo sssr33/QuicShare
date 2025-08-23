@@ -1,14 +1,15 @@
 #include "LocalNetworkDiscovery.h"
 
-LocalNetworkDiscovery::LocalNetworkDiscovery(boost::asio::io_context& ioContext_, const std::string& localId_)
+LocalNetworkDiscovery::LocalNetworkDiscovery(
+    boost::asio::io_context& ioContext_,
+    const std::string& localId_,
+    const std::vector<boost::asio::ip::udp::endpoint>& listenEndpoints
+)
     : ioContext(ioContext_)
     , localId(localId_)
 {
-    boost::asio::ip::udp::resolver resolver(ioContext);
-    auto it = resolver.resolve(boost::asio::ip::host_name(), "", boost::asio::ip::resolver_base::flags::passive);
-
-    for (const auto& e : it) {
-        auto addr = e.endpoint().address();
+    for (auto& e : listenEndpoints) {
+        auto addr = e.address();
         auto str = addr.to_string();
         auto isv4 = addr.is_v4();
         auto isLoopback = addr.is_loopback();
