@@ -58,6 +58,15 @@ QUIC_STATUS MsQuicListener::ListenerCallback(
 
     switch (event->Type) {
     case QUIC_LISTENER_EVENT_NEW_CONNECTION:
+        if (testConnection) {
+            assert(false);
+            break;
+        }
+
+        testConnection = std::make_unique<MsQuicConnection>();
+
+        testConnection->ConnectFromListener(event->NEW_CONNECTION.Connection, MsQuic::GetInstance().GetServerConfig());
+
         break;
     case QUIC_LISTENER_EVENT_STOP_COMPLETE:
         break;

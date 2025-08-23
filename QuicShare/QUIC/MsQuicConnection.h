@@ -7,6 +7,7 @@ public:
     MsQuicConnection();
 
     void Connect(const LocalNetworkPeerPath& path);
+    void ConnectFromListener(HQUIC connection_, HQUIC config);
 
 private:
     static QUIC_STATUS QUIC_API QuicConnectionCallback(

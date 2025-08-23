@@ -48,6 +48,22 @@ void MsQuicConnection::Connect(const LocalNetworkPeerPath& path) {
     }
 }
 
+void MsQuicConnection::ConnectFromListener(HQUIC connection_, HQUIC config) {
+    QUIC_STATUS quicRes = QUIC_STATUS_SUCCESS;
+    auto& msQuicInstance = MsQuic::GetInstance();
+    auto msQuic = msQuicInstance.GetMsQuic();
+
+    connection = connection_;
+
+    quicRes = msQuic->ConnectionSetConfiguration(connection, config);
+    if (QUIC_FAILED(quicRes)) {
+        assert(false);
+        return;
+    }
+
+    msQuic->SetCallbackHandler(connection, &MsQuicConnection::QuicConnectionCallback, this);
+}
+
 QUIC_STATUS QUIC_API MsQuicConnection::QuicConnectionCallback(
     _In_ HQUIC Connection,
     _In_opt_ void* Context,

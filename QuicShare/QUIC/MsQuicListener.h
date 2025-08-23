@@ -1,5 +1,6 @@
 #pragma once
 #include "MsQuic.h"
+#include "MsQuicConnection.h"
 
 #include <algorithm>
 #include <string_view>
@@ -31,4 +32,6 @@ private:
     HQUIC listener = nullptr;
     boost::asio::ip::udp::endpoint listenEndpoint;
     uint16_t listenPort = 0;
+
+    std::unique_ptr<MsQuicConnection> testConnection;
 };
