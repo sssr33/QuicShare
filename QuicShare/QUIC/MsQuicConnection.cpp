@@ -55,5 +55,10 @@ QUIC_STATUS QUIC_API MsQuicConnection::QuicConnectionCallback(
 )
 {
     QUIC_STATUS quicRes = QUIC_STATUS_SUCCESS;
+
+    if (Event->Type == QUIC_CONNECTION_EVENT_SHUTDOWN_INITIATED_BY_TRANSPORT) {
+        int stop = 234;
+    }
+
     return quicRes;
 }

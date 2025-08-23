@@ -62,7 +62,7 @@ std::tuple<QUIC_STATUS, HQUIC> MsQuicConfigurationFactory::CreateClientConfig() 
     // TODO check if client can use certificates or/and do any kind of authorization
     QUIC_CREDENTIAL_CONFIG cred{};
     cred.Type = QUIC_CREDENTIAL_TYPE_NONE;
-    cred.Flags = QUIC_CREDENTIAL_FLAG_CLIENT;
+    cred.Flags = QUIC_CREDENTIAL_FLAG_CLIENT | QUIC_CREDENTIAL_FLAG_NO_CERTIFICATE_VALIDATION;
 
     quicRes = msQuic->ConfigurationLoadCredential(configuration, &cred);
     if (QUIC_FAILED(quicRes)) {
